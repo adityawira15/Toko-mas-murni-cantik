@@ -1,0 +1,27 @@
+@import url('https://fonts.googleapis.com/css?family=Lobster');
+
+.header{
+    font-family: 'Lobster', cursive;
+    background-color: #f1f1f1;
+    padding: 5px;
+    text-align: center;
+}
+  
+.sticky {
+  position: fixed;
+  top: 0;
+  width: 100%
+}
+
+.sticky-nav{
+  position: fixed;
+  height: 100%;
+}
+
+.nav-link{
+  color: black;
+  cursor: pointer;
+}
+.nav-link:hover{
+  background-color: #ffc107!important;;
+}
