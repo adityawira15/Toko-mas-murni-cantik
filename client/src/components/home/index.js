@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Cincin from '../../modelscomponent/cincin'
+import Pagination from '../pagination'
 import './home.css'
 
 export default class Home extends Component {
@@ -9,7 +10,7 @@ export default class Home extends Component {
             transform: '',
             transformnav: '',
             heightnavbar: 0,
-            navlink: 'Cincin'
+            navlink: 'Cincin',
         }
         this.handleScroll = this.handleScroll.bind(this)
         this.navlink = this.navlink.bind(this)
@@ -51,7 +52,7 @@ export default class Home extends Component {
                         <img src="https://cdn.shopify.com/s/files/1/1425/9340/products/wedding-rings-ideas-4_1024x1024.png?v=1506792254" width="30" height="30" alt="" />
                     </a>
                 </nav>
-                <div className="row" style={{marginLeft: 0, marginRight: 0}}>
+                <div className="row" style={{ marginLeft: 0, marginRight: 0 }}>
                     <div style={{ backgroundColor: '#f1f1f1' }} className="col-md-2">
                         <div className="nav flex-column nav-pills" aria-orientation="vertical" style={{ height: 515 + 'px' }}>
                             <div style={{ margin: '10px 20px 30px 5px' }}>
@@ -67,6 +68,9 @@ export default class Home extends Component {
                     </div>
                     <div className="col-md-10">
                         <Cincin />
+                        <br />
+                        <br />
+                        <Pagination />
                     </div>
                 </div>
             </div>

@@ -1,0 +1,14 @@
+.stylenav .pagination>li>a {
+    border: 1px solid #dc3545!important;
+}
+
+.pagination>li.active>a {
+    background-color: #dc3545;
+    color: #fff
+}
+
+.page-item.active .page-link {
+    background-color: #dc3545;
+    border-color: #dc3545;
+    color: #fff;
+}
