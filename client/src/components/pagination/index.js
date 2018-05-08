@@ -21,7 +21,7 @@ export default class Pagination extends Component {
                 <nav aria-label="Page navigation example">
                     <ul className="pagination justify-content-center">
                         <li className="page-item disabled">
-                            <a className="page-link" onClick={this.handleClick} tabindex="-1">Previous</a>
+                            <a className="page-link" onClick={this.handleClick} tabIndex="-1">Previous</a>
                         </li>
                         <li className="page-item">
                             <a className="page-link" onClick={this.handleClick}>1</a>

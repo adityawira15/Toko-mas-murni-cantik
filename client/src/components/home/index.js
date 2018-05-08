@@ -1,9 +1,12 @@
 import React, { Component } from 'react'
 import Cincin from '../../modelscomponent/cincin'
 import Pagination from '../pagination'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import * as AppActions from '../../actions'
 import './home.css'
 
-export default class Home extends Component {
+class Home extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -56,7 +59,7 @@ export default class Home extends Component {
                     <div style={{ backgroundColor: '#f1f1f1' }} className="col-md-2">
                         <div className="nav flex-column nav-pills" aria-orientation="vertical" style={{ height: 515 + 'px' }}>
                             <div style={{ margin: '10px 20px 30px 5px' }}>
-                                <input class="form-control" type="search" placeholder="Search" />
+                                <input className="form-control" type="search" placeholder="Search" />
                             </div>
                             <h4 style={{ paddingLeft: 5 + 'px' }}>Models</h4>
                             <a className={this.state.navlink === "Cincin" ? "nav-link active bg-danger" : "nav-link"} onClick={() => this.navlink('Cincin')} >Cincin</a>
@@ -77,3 +80,20 @@ export default class Home extends Component {
         )
     }
 }
+
+function mapStateToProps(state) {
+    return {
+        data: state.data
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        actions: bindActionCreators(AppActions, dispatch)
+    }
+}
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Home)
