@@ -24,6 +24,7 @@ class Home extends Component {
         let sticky = heightNavbar.offsetTop
         this.setState({ heightnavbar: sticky })
         window.addEventListener('scroll', this.handleScroll);
+        this.props.actions.loadDataMc()
     }
 
     componentWillUnmount() {
