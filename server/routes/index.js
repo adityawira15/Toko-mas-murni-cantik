@@ -9,13 +9,18 @@ const pool = new Pool({
   port: 5432
 })
 /* GET home page. */
-router.get('/', function(req, res, next) {
+router.get('/', function (req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
 router.get('/api/mc', (req, res) => {
-  pool.query('select * from data', (err, response) => {
-    res.json(response.rows)
+  pool.query(`select * from data where model = '${req.query.model}' `, (err, data) => {
+    pool.query(`select * from data where model = '${req.query.model}' LIMIT 4 OFFSET ${req.query.offset}`, (err, response) => {
+      res.json({
+        data: data.rows,
+        response: response.rows
+      })
+    })
   })
 })
 

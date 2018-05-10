@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
-import Cincin from '../../modelscomponent/cincin'
+import Cards from '../cards'
 import Pagination from '../pagination'
+import Detail from '../detail'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import * as AppActions from '../../actions'
+import request from 'superagent'
 import './home.css'
 
 class Home extends Component {
@@ -14,9 +16,12 @@ class Home extends Component {
             transformnav: '',
             heightnavbar: 0,
             navlink: 'Cincin',
+            offset: 0,
+            offsetarray: []
         }
         this.handleScroll = this.handleScroll.bind(this)
         this.navlink = this.navlink.bind(this)
+        this.handleOffset = this.handleOffset.bind(this)
     }
 
     componentDidMount() {
@@ -24,7 +29,7 @@ class Home extends Component {
         let sticky = heightNavbar.offsetTop
         this.setState({ heightnavbar: sticky })
         window.addEventListener('scroll', this.handleScroll);
-        this.props.actions.loadDataMc()
+        this.props.actions.loadDataMc(this.state.navlink, this.state.offset)
     }
 
     componentWillUnmount() {
@@ -40,8 +45,26 @@ class Home extends Component {
         }
     }
 
+    handleOffset() {
+        request
+            .get('http://localhost:3000/api/mc?model=' + this.state.navlink + '&offset=' + this.state.offset)
+            .set('Accept', 'application/json')
+            .end((err, val) => {
+                let data = JSON.parse(val.text)
+                let offset = []
+                let map = data.data.map((val, i) => {
+                    if (i % 4 === 0) {
+                        offset.push(i)
+                    }
+                })
+                this.setState({ offsetarray: offset })
+            })
+    }
+
     navlink(select) {
         this.setState({ navlink: select })
+        this.props.actions.loadDataMc(select, this.state.offset)
+        this.handleOffset()
     }
 
     render() {
@@ -71,10 +94,10 @@ class Home extends Component {
                         </div>
                     </div>
                     <div className="col-md-10">
-                        <Cincin />
+                        <Cards />
                         <br />
                         <br />
-                        <Pagination />
+                        <Pagination page={this.state.offsetarray} model={this.state.navlink} />
                     </div>
                 </div>
             </div>
