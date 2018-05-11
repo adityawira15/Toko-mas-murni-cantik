@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import Cards from '../cards'
+import Login from '../form/login'
+import Register from '../form/register'
 import Pagination from '../pagination'
-import Detail from '../detail'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import * as AppActions from '../../actions'
@@ -17,11 +18,15 @@ class Home extends Component {
             heightnavbar: 0,
             navlink: 'Cincin',
             offset: 0,
-            offsetarray: []
+            offsetarray: [],
+            form: 'login'
         }
         this.handleScroll = this.handleScroll.bind(this)
         this.navlink = this.navlink.bind(this)
         this.handleOffset = this.handleOffset.bind(this)
+        this.setToLogin = this.setToLogin.bind(this)
+        this.setToRegister = this.setToRegister.bind(this)
+        this.formLoginorRegister = this.formLoginorRegister.bind(this)
     }
 
     componentDidMount() {
@@ -43,6 +48,10 @@ class Home extends Component {
         } else {
             this.setState({ transform: '' })
         }
+    }
+
+    handleClick() {
+        document.getElementById('id01').style.display = 'block'
     }
 
     handleOffset() {
@@ -67,6 +76,31 @@ class Home extends Component {
         this.handleOffset()
     }
 
+    setToLogin() {
+        this.setState({ form: 'login' })
+    }
+
+    setToRegister() {
+        this.setState({ form: 'register' })
+    }
+
+    formLoginorRegister() {
+        if (this.state.form === 'login') {
+            return <Login />
+        } else if (this.state.form === 'register') {
+            return <Register />
+        }
+    }
+
+    avatarProfile() {
+        return (
+            <div className="imgcontainer">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTjWuKxVQMEvFb5bo7zGMF6MT1YK6EQdkKcCfs3QkTkPFDek2H" style={{ height: 75 + 'px', width: 75 + 'px' }} alt="Avatar" className="avatar" />
+                <h6>Aditya Wira nugraha</h6>
+            </div>
+        )
+    }
+
     render() {
         return (
             <div>
@@ -78,10 +112,25 @@ class Home extends Component {
                     <a className="navbar-brand" href="">
                         <img src="https://cdn.shopify.com/s/files/1/1425/9340/products/wedding-rings-ideas-4_1024x1024.png?v=1506792254" width="30" height="30" alt="" />
                     </a>
+                    <button onClick={this.handleClick} className="btn btn-outline-warning my-2 my-sm-0">Login</button>
                 </nav>
+                <div id="id01" className="modal">
+                    <form className="modal-content animate" >
+                        <div className="row" style={{ marginTop: 15 + 'px', marginLeft: 5 + 'px', marginRight: 5 + 'px' }}>
+                            <div className="col-md-6" style={{ textAlign: 'center' }}>
+                                <button type="button" onClick={this.setToLogin} className="btn btn-success btn-lg btn3d" style={{ width: 95 + '%' }}>Login</button>
+                            </div>
+                            <div className="col-md-6" style={{ textAlign: 'center' }}>
+                                <button type="button" onClick={this.setToRegister} className="btn btn-info btn-lg btn3d" style={{ width: 95 + '%' }} >Register</button>
+                            </div>
+                        </div>
+                        {this.formLoginorRegister()}
+                    </form>
+                </div>
                 <div className="row" style={{ marginLeft: 0, marginRight: 0 }}>
                     <div style={{ backgroundColor: '#f1f1f1' }} className="col-md-2">
                         <div className="nav flex-column nav-pills" aria-orientation="vertical" style={{ height: 515 + 'px' }}>
+                            {this.avatarProfile()}
                             <div style={{ margin: '10px 20px 30px 5px' }}>
                                 <input className="form-control" type="search" placeholder="Search" />
                             </div>

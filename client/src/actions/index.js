@@ -35,3 +35,31 @@ function loadDataMcSuccess(val){
 function loadDataMcFailure(){
     return {type: types.LOAD_DATA_MC_FAILURE}
 }
+
+function getDataDetail(){
+    return {type: types.GET_DATA_DETAIL}
+}
+
+export function getDataMcDetail(id){
+    return dispatch => {
+        dispatch(getDataDetail())
+        return request
+            .get(SERVER_URL+'api/mc/'+id)
+            .set('Accept', 'application/json')
+            .end((err, val) => {
+                if(err){
+                    dispatch(getDataMcDetailFailure())
+                }else{
+                    dispatch(getDataMcDetailSuccess(JSON.parse(val.text)))
+                }
+            })
+    }
+}
+
+function getDataMcDetailSuccess(data){
+    return {type: types.GET_DATA_MC_DETAIL_SUCCESS, data}
+}
+
+function getDataMcDetailFailure(){
+    return {type: types.GET_DATA_MC_DETAIL_FAILURE}
+}

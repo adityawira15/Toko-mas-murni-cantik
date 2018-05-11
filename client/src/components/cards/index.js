@@ -9,6 +9,7 @@ class Cards extends Component {
         let cards = this.props.data.response.map((val, i) => {
             return (
                 <Card 
+                id={val.id}
                 title={val.title}
                 description={val.description}
                 key={i}

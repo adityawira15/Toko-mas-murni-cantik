@@ -24,4 +24,13 @@ router.get('/api/mc', (req, res) => {
   })
 })
 
+router.get('/api/mc/:id', (req, res) => {
+  pool.query(`SELECT * FROM data WHERE id = '${req.params.id}'`, (err, response) => {
+    res.json({
+      data: [],
+      response: response.rows
+    })
+  })
+})
+
 module.exports = router;

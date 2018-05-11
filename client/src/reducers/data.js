@@ -16,6 +16,12 @@ export default function data(state = initialState, action) {
             return action.val
         case types.LOAD_DATA_MC_FAILURE:
             return state
+        case types.GET_DATA_DETAIL:
+            return state
+        case types.GET_DATA_MC_DETAIL_SUCCESS:
+            return action.data
+        case types.GET_DATA_MC_DETAIL_FAILURE:
+            return state
         default:
             return state
     }

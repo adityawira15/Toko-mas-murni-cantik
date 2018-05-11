@@ -16,7 +16,7 @@ export default class Dashboard extends Component {
                     imageSrc="https://c1.staticflickr.com/8/7577/15373273683_baef5fd1dd_b.jpg">
                     <h1>Toko Mas Murni Cantik</h1>
                     <br />
-                    <Link to="/home"><button className="button">Click to Open!</button></Link>
+                    <Link to='/home'><button className="button">Click to Open!</button></Link>
                 </LazyHero>
             </div>
 
