@@ -6,7 +6,7 @@ import Pagination from '../pagination'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import * as AppActions from '../../actions'
-import request from 'superagent'
+import { Redirect } from 'react-router-dom'
 import './home.css'
 
 class Home extends Component {
@@ -19,14 +19,15 @@ class Home extends Component {
             navlink: 'Cincin',
             offset: 0,
             offsetarray: [],
-            form: 'login'
+            form: 'login',
+            logout: false
         }
         this.handleScroll = this.handleScroll.bind(this)
         this.navlink = this.navlink.bind(this)
-        this.handleOffset = this.handleOffset.bind(this)
         this.setToLogin = this.setToLogin.bind(this)
         this.setToRegister = this.setToRegister.bind(this)
         this.formLoginorRegister = this.formLoginorRegister.bind(this)
+        this.handleLogout = this.handleLogout.bind(this)
     }
 
     componentDidMount() {
@@ -39,6 +40,13 @@ class Home extends Component {
 
     componentWillUnmount() {
         window.removeEventListener('scroll', this.handleScroll);
+    }
+
+    componentWillMount() {
+        if (this.state.logout) {
+            this.setState({ logout: false })
+            return <Redirect to="/home" />
+        }
     }
 
     handleScroll(event) {
@@ -54,26 +62,14 @@ class Home extends Component {
         document.getElementById('id01').style.display = 'block'
     }
 
-    handleOffset() {
-        request
-            .get('http://localhost:3000/api/mc?model=' + this.state.navlink + '&offset=' + this.state.offset)
-            .set('Accept', 'application/json')
-            .end((err, val) => {
-                let data = JSON.parse(val.text)
-                let offset = []
-                let map = data.data.map((val, i) => {
-                    if (i % 4 === 0) {
-                        offset.push(i)
-                    }
-                })
-                this.setState({ offsetarray: offset })
-            })
+    handleLogout() {
+        this.setState({ logout: true })
+        localStorage.clear()
     }
 
     navlink(select) {
         this.setState({ navlink: select })
         this.props.actions.loadDataMc(select, this.state.offset)
-        this.handleOffset()
     }
 
     setToLogin() {
@@ -93,12 +89,24 @@ class Home extends Component {
     }
 
     avatarProfile() {
-        return (
-            <div className="imgcontainer">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTjWuKxVQMEvFb5bo7zGMF6MT1YK6EQdkKcCfs3QkTkPFDek2H" style={{ height: 75 + 'px', width: 75 + 'px' }} alt="Avatar" className="avatar" />
-                <h6>Aditya Wira nugraha</h6>
-            </div>
-        )
+        if (localStorage.getItem('token')) {
+            return (
+                <div className="imgcontainer">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTjWuKxVQMEvFb5bo7zGMF6MT1YK6EQdkKcCfs3QkTkPFDek2H" style={{ height: 75 + 'px', width: 75 + 'px' }} alt="Avatar" className="avatar" />
+                    <h6>Aditya Wira nugraha</h6>
+                </div>
+            )
+        } else {
+            return
+        }
+    }
+
+    buttonLoginOrLogout() {
+        if (localStorage.getItem('token')) {
+            return <button onClick={this.handleLogout} className="btn btn-outline-warning my-2 my-sm-0">Logout</button>
+        } else {
+            return <button onClick={this.handleClick} className="btn btn-outline-warning my-2 my-sm-0">Login</button>
+        }
     }
 
     render() {
@@ -112,7 +120,7 @@ class Home extends Component {
                     <a className="navbar-brand" href="">
                         <img src="https://cdn.shopify.com/s/files/1/1425/9340/products/wedding-rings-ideas-4_1024x1024.png?v=1506792254" width="30" height="30" alt="" />
                     </a>
-                    <button onClick={this.handleClick} className="btn btn-outline-warning my-2 my-sm-0">Login</button>
+                    {this.buttonLoginOrLogout()}
                 </nav>
                 <div id="id01" className="modal">
                     <form className="modal-content animate" >

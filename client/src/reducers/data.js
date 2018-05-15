@@ -22,6 +22,12 @@ export default function data(state = initialState, action) {
             return action.data
         case types.GET_DATA_MC_DETAIL_FAILURE:
             return state
+        case types.LOGIN:
+            return state
+        case types.LOGIN_MC_SUCCESS:
+            return state
+        case types.LOGIN_MC_FAILURE:
+            return state
         default:
             return state
     }

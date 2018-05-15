@@ -63,3 +63,35 @@ function getDataMcDetailSuccess(data){
 function getDataMcDetailFailure(){
     return {type: types.GET_DATA_MC_DETAIL_FAILURE}
 }
+
+function login(){
+    return {type: types.LOGIN}
+}
+
+export function loginMc(email, password){
+    return dispatch => {
+        dispatch(login())
+        return request
+            .post(SERVER_URL+'login')
+            .send({
+                email: email,
+                password: password
+            })
+            .set('Accept', 'application/json')
+            .end((err, val) => {
+                if(err){
+                    dispatch(loginMcFailure())
+                }else{
+                    dispatch(loginMcSuccess(JSON.stringify(val.text)))
+                }
+            })
+    }
+}
+
+function loginMcSuccess(data){
+    return {type: types.LOGIN_MC_SUCCESS, data}
+}
+
+function loginMcFailure(){
+    return {type: types.LOGIN_MC_FAILURE}
+}
