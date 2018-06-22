@@ -39,7 +39,7 @@ class Detail extends Component {
                             <div className="card bg-light mb-3">
                                 <div className="card-body">
                                     <a href="" data-toggle="modal" data-target="#productModal">
-                                        <img className="img-fluid" src="https://dummyimage.com/800x800/55595c/fff" alt='img' />
+                                        <img className="img-fluid" src="https://dummyimage.com/800x800/55595c/fff" style={{width: 500, height: 500}} alt='img' />
                                     </a>
                                 </div>
                             </div>
@@ -47,13 +47,16 @@ class Detail extends Component {
                         <div className="col-12 col-lg-6 add_to_cart_block">
                             <div className="card bg-light mb-3">
                                 <div className="card-body">
-                                    <p className="price">Rp.{this.props.data.response[0].price.toLocaleString()} / Gram</p>
+                                    <p className="price">{this.props.data.response[0].title}</p>
+                                    <h2>Rp.{this.props.data.response[0].price.toLocaleString()}</h2>
+                                    <p>Bahan: {this.props.data.response[0].material}</p>
+
                                     {/* <p className="price_discounted">149.90 $</p> */}
-                                    {/* <form method="get" action="cart.html">
+                                    <form method="get" action="cart.html">
                                         <a href="cart.html" className="btn btn-success btn-lg btn-block text-uppercase">
                                             <i className="fa fa-shopping-cart"></i> Add To Cart
                                         </a>
-                                    </form> */}
+                                    </form>
                                     <div className="reviews_product p-3 mb-2 ">
                                         3 reviews
                                         <i className="fa fa-star"></i>

@@ -13,7 +13,8 @@ class Pagination extends Component {
             offsetarray: [],
             nopage: 1,
             next: true,
-            previous: false
+            previous: false,
+            model: 'Cincin'
         }
         this.handleClick = this.handleClick.bind(this)
         this.handleNext = this.handleNext.bind(this)
@@ -73,6 +74,14 @@ class Pagination extends Component {
                 }
             }
         })
+
+        if(this.props.model !== this.state.model){
+            this.setState({
+                nopage: 1,
+                model: this.props.model,
+                offset: 0
+            })
+        }
         
         return (
             <div className="stylenav">

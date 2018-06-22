@@ -18,6 +18,7 @@ class Login extends Component {
         this.onChangePassword = this.onChangePassword.bind(this)
         this.onSubmit = this.onSubmit.bind(this)
         this.handleErrorMessage = this.handleErrorMessage.bind(this)
+        this.handleToken = this.handleToken.bind(this)
     }
 
     onChangeEmail(e) {
@@ -42,14 +43,26 @@ class Login extends Component {
                     console.log('error: ', err)
                 } else {
                     if (data.token) {
-                        localStorage.setItem('token', data.token)
+                        localStorage.setItem('token', JSON.stringify({userid: data.user[0].id, token: data.token, username: data.user[0].firstname ? data.user[0].firstname : '' + ' ' + data.user[0].lastname ? data.user[0].lastname : '' }))
+                        this.props.handleToken()
                         this.handleClickNone()
-                        this.setState({ redirect: true })
+                        this.setState({ redirect: true, errormessage: false })
                     } else {
                         this.setState({errormessage: data.message})
                     }
                 }
             })
+    }
+
+    handleToken(){
+        let dataStorage = JSON.parse(localStorage.getItem('token'))
+        request
+        .post('http://localhost:3000/verifytoken')
+        .send({token: dataStorage.token, userid: dataStorage.userid})
+        .set('Accept', 'application/json')
+        .end((err, val) => {
+            console.log(val)
+        })
     }
 
     handleClickNone() {

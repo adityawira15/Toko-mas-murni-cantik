@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import request from 'superagent'
 import Cards from '../cards'
 import Login from '../form/login'
 import Register from '../form/register'
@@ -28,6 +29,7 @@ class Home extends Component {
         this.setToRegister = this.setToRegister.bind(this)
         this.formLoginorRegister = this.formLoginorRegister.bind(this)
         this.handleLogout = this.handleLogout.bind(this)
+        this.handleToken = this.handleToken.bind(this)
     }
 
     componentDidMount() {
@@ -42,16 +44,8 @@ class Home extends Component {
         window.removeEventListener('scroll', this.handleScroll);
     }
 
-    componentWillMount() {
-        if (this.state.logout) {
-            this.setState({ logout: false })
-            return <Redirect to="/home" />
-        }
-    }
-
     handleScroll(event) {
         if (window.pageYOffset >= this.state.heightnavbar) {
-
             this.setState({ transform: 'sticky', transformnav: 'sticky-nav' })
         } else {
             this.setState({ transform: '' })
@@ -63,8 +57,18 @@ class Home extends Component {
     }
 
     handleLogout() {
-        this.setState({ logout: true })
-        localStorage.clear()
+        let dataStorage = JSON.parse(localStorage.getItem('token'))
+        request
+            .get(`http://localhost:3000/logout?id=${dataStorage.userid}`)
+            .set('Accept', 'application/json')
+            .end((err, val) => {
+                if (err) {
+                    console.log(err)
+                } else {
+                    localStorage.clear()
+                    this.setState({ logout: true })
+                }
+            })
     }
 
     navlink(select) {
@@ -82,18 +86,19 @@ class Home extends Component {
 
     formLoginorRegister() {
         if (this.state.form === 'login') {
-            return <Login />
+            return <Login handleToken={this.handleToken} />
         } else if (this.state.form === 'register') {
             return <Register />
         }
     }
 
     avatarProfile() {
+        let data = JSON.parse(localStorage.getItem('token'))
         if (localStorage.getItem('token')) {
             return (
                 <div className="imgcontainer">
                     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTjWuKxVQMEvFb5bo7zGMF6MT1YK6EQdkKcCfs3QkTkPFDek2H" style={{ height: 75 + 'px', width: 75 + 'px' }} alt="Avatar" className="avatar" />
-                    <h6>Aditya Wira nugraha</h6>
+                    <h6>{data.username}</h6>
                 </div>
             )
         } else {
@@ -109,14 +114,33 @@ class Home extends Component {
         }
     }
 
+    handleToken() {
+        let dataStorage = JSON.parse(localStorage.getItem('token'))
+        if (dataStorage) {
+            request
+                .post('http://localhost:3000/verifytoken')
+                .send({ token: dataStorage.token, userid: dataStorage.userid })
+                .set('Accept', 'application/json')
+                .end((err, val) => {
+                    console.log(val)
+                })
+        } else {
+            console.log(dataStorage)
+        }
+    }
+
     render() {
+        if (this.state.logout) {
+            this.setState({ logout: false })
+            return <Redirect to="/home" />
+        }
         return (
             <div>
                 <div className="header">
                     <h3>Toko Mas Murni Cantik</h3>
                     <h4>alamat</h4>
                 </div>
-                <nav id="navbar" className={"navbar navbar-dark bg-danger"}>
+                <nav id="navbar" className="navbar navbar-dark bg-danger">
                     <a className="navbar-brand" href="">
                         <img src="https://cdn.shopify.com/s/files/1/1425/9340/products/wedding-rings-ideas-4_1024x1024.png?v=1506792254" width="30" height="30" alt="" />
                     </a>
@@ -151,7 +175,7 @@ class Home extends Component {
                         </div>
                     </div>
                     <div className="col-md-10">
-                        <Cards />
+                        <Cards model={this.state.navlink} />
                         <br />
                         <br />
                         <Pagination page={this.state.offsetarray} model={this.state.navlink} />
