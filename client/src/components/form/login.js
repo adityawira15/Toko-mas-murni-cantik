@@ -104,7 +104,7 @@ class Login extends Component {
                             <button type="button" onClick={this.onSubmit} className="btn btn-danger">Submit</button>
                         </div>
                         <div className='col-md-6' style={{ textAlign: 'right' }}>
-                            <button type="button" onClick={this.handleClickNone} className="btn btn-warning">Cancle</button>
+                            <button type="button" onClick={this.handleClickNone} className="btn btn-warning">Cancel</button>
                         </div>
                     </div>
                 </div>

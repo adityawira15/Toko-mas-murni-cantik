@@ -1,8 +1,12 @@
 @import url('https://fonts.googleapis.com/css?family=Lobster');
 
+#navbar{
+  background-image: radial-gradient(#ffc107 30%, #dc3545);
+}
+
 .header{
     font-family: 'Lobster', cursive;
-    background-color: #f1f1f1;
+    /* background-color: #f1f1f1; */
     padding: 5px;
     text-align: center;
 }

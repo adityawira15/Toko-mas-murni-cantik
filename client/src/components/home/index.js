@@ -136,14 +136,14 @@ class Home extends Component {
         }
         return (
             <div>
-                <div className="header">
-                    <h3>Toko Mas Murni Cantik</h3>
-                    <h4>alamat</h4>
-                </div>
                 <nav id="navbar" className="navbar navbar-dark bg-danger">
                     <a className="navbar-brand" href="">
-                        <img src="https://cdn.shopify.com/s/files/1/1425/9340/products/wedding-rings-ideas-4_1024x1024.png?v=1506792254" width="30" height="30" alt="" />
+                        <img src="https://cdn.shopify.com/s/files/1/1425/9340/products/wedding-rings-ideas-4_1024x1024.png?v=1506792254" width="100" height="100" alt="" />
                     </a>
+                    <div className="header">
+                        <h4>Toko Mas</h4>
+                        <h1>Murni Cantik</h1>
+                    </div>
                     {this.buttonLoginOrLogout()}
                 </nav>
                 <div id="id01" className="modal">
